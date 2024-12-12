@@ -72,8 +72,8 @@
         --easing: cubic-bezier(0.8, 0.2, 0.2, 0.8);
         
         /* Custom size (50% width and 80% height) */
-        width: 50%;
-        height: 50%;
+        width: 45%;
+        height: 45%;
         filter: blur(calc(var(--size) / 5));
         background-image: linear-gradient(rgba(55, 235, 169, 0.85), #5b37eb);
         animation: rotate var(--speed) var(--easing) infinite;
@@ -83,8 +83,8 @@
         
         /* Absolute positioning to center it */
         position: absolute;
-        top: 25%;
-        left: 25%;
+        top: 20%;
+        left: 27%;
         z-index: -1; /* Ensure it stays behind content */
         
         /* Center the background element */

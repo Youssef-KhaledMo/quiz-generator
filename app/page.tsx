@@ -106,131 +106,137 @@ export default function ChatWithFiles() {
 
   return (
     <div>
-    <div className=" gradient"></div>
-    <div
-      className="min-h-[100dvh] w-full flex justify-center" 
-      onDragOver={(e) => {
-        e.preventDefault();
-        setIsDragging(true);
-      }}
-      onDragExit={() => setIsDragging(false)}
-      onDragEnd={() => setIsDragging(false)}
-      onDragLeave={() => setIsDragging(false)}
-      onDrop={(e) => {
-        e.preventDefault();
-        setIsDragging(false);
-        console.log(e.dataTransfer.files);
-        handleFileChange({
-          target: { files: e.dataTransfer.files },
-        } as React.ChangeEvent<HTMLInputElement>);
-      }}
-    >
-      <AnimatePresence>
-        {isDragging && (
-          <motion.div
-            className="fixed pointer-events-none dark:bg-zinc-900/90 h-dvh w-dvw z-10 justify-center items-center flex flex-col gap-1 bg-zinc-100/90"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <div>Drag and drop files here</div>
-            <div className="text-sm dark:text-zinc-400 text-zinc-500">
-              {"(PDFs only)"}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <Card className="w-full max-w-md h-full border-0 sm:border sm:h-fit mt-12">
-        <CardHeader className="text-center space-y-6">
-          <div className="mx-auto flex items-center justify-center space-x-2 text-muted-foreground">
-            <div className="rounded-full bg-primary/10 p-2">
-              <FileUp className="h-6 w-6" />
-            </div>
-            <Plus className="h-4 w-4" />
-            <div className="rounded-full bg-primary/10 p-2">
-              <Loader2 className="h-6 w-6" />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <CardTitle className="text-2xl font-bold">
-              PDF Quiz Generator
-            </CardTitle>
-            <CardDescription className="text-base">
-              Upload a PDF to generate an interactive quiz based on its content using AI.
-            </CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmitWithFiles} className="space-y-4">
-            <div
-              className={`relative flex flex-col items-center justify-center border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 transition-colors hover:border-muted-foreground/50`}
+      <div className=" gradient"></div>
+      <div
+        className="min-h-[100dvh] w-full flex justify-center"
+        onDragOver={(e) => {
+          e.preventDefault();
+          setIsDragging(true);
+        }}
+        onDragExit={() => setIsDragging(false)}
+        onDragEnd={() => setIsDragging(false)}
+        onDragLeave={() => setIsDragging(false)}
+        onDrop={(e) => {
+          e.preventDefault();
+          setIsDragging(false);
+          console.log(e.dataTransfer.files);
+          handleFileChange({
+            target: { files: e.dataTransfer.files },
+          } as React.ChangeEvent<HTMLInputElement>);
+        }}
+      >
+        <AnimatePresence>
+          {isDragging && (
+            <motion.div
+              className="fixed pointer-events-none dark:bg-zinc-900/90 h-dvh w-dvw z-10 justify-center items-center flex flex-col gap-1 bg-zinc-100/90"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
             >
-              <input
-                type="file"
-                onChange={handleFileChange}
-                accept="application/pdf"
-                className="absolute inset-0 opacity-0 cursor-pointer"
-              />
-              <FileUp className="h-8 w-8 mb-2 text-muted-foreground" />
-              <p className="text-sm text-muted-foreground text-center">
-                {files.length > 0 ? (
-                  <span className="font-medium text-foreground">
-                    {files[0].name}
+              <div>Drag and drop files here</div>
+              <div className="text-sm dark:text-zinc-400 text-zinc-500">
+                {"(PDFs only)"}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <Card className="w-full max-w-md h-full border-0 sm:border sm:h-fit mt-12">
+          <CardHeader className="text-center space-y-6">
+            <div className="mx-auto flex items-center justify-center space-x-2 text-muted-foreground">
+              <div className="rounded-full bg-primary/10 p-2">
+                <FileUp className="h-6 w-6" />
+              </div>
+              <Plus className="h-4 w-4" />
+              <div className="rounded-full bg-primary/10 p-2">
+                <Loader2 className="h-6 w-6" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <CardTitle className="text-2xl font-bold">
+                PDF Quiz Generator
+              </CardTitle>
+              <CardDescription className="text-base">
+                Upload a PDF to generate an interactive quiz based on its content using AI.
+              </CardDescription>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmitWithFiles} className="space-y-4">
+              <div
+                className={`relative flex flex-col items-center justify-center border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 transition-colors hover:border-muted-foreground/50`}
+              >
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  accept="application/pdf"
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                />
+                <FileUp className="h-8 w-8 mb-2 text-muted-foreground" />
+                <p className="text-sm text-muted-foreground text-center">
+                  {files.length > 0 ? (
+                    <span className="font-medium text-foreground">
+                      {files[0].name}
+                    </span>
+                  ) : (
+                    <span>Drop your PDF here or click to browse.</span>
+                  )}
+                </p>
+              </div>
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={files.length === 0}
+              >
+                {isLoading ? (
+                  <span className="flex items-center space-x-2">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <span>Generating Quiz...</span>
                   </span>
                 ) : (
-                  <span>Drop your PDF here or click to browse.</span>
+                  "Generate Quiz"
                 )}
-              </p>
-            </div>
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={files.length === 0}
-            >
-              {isLoading ? (
-                <span className="flex items-center space-x-2">
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  <span>Generating Quiz...</span>
-                </span>
-              ) : (
-                "Generate Quiz"
-              )}
-            </Button>
-          </form>
-        </CardContent>
-        {isLoading && (
-          <CardFooter className="flex flex-col space-y-4">
-            <div className="w-full space-y-1">
-              <div className="flex justify-between text-sm text-muted-foreground">
-                <span>Progress</span>
-                <span>{Math.round(progress)}%</span>
+              </Button>
+            </form>
+          </CardContent>
+          {isLoading && (
+            <CardFooter className="flex flex-col space-y-4">
+              <div className="w-full space-y-1">
+                <div className="flex justify-between text-sm text-muted-foreground">
+                  <span>Progress</span>
+                  <span>{Math.round(progress)}%</span>
+                </div>
+                <Progress value={progress} className="h-2" />
               </div>
-              <Progress value={progress} className="h-2" />
-            </div>
-            <div className="w-full space-y-2">
-              <div className="grid grid-cols-6 sm:grid-cols-4 items-center space-x-2 text-sm">
-                <div
-                  className={`h-2 w-2 rounded-full ${
-                    isLoading ? "bg-yellow-500/50 animate-pulse" : "bg-muted"
-                  }`}
-                />
-                <span className="text-muted-foreground text-center col-span-4 sm:col-span-2">
-                  {partialQuestions
-                    ? `Generating question ${partialQuestions.length + 1} of 4`
-                    : "Analyzing PDF content"}
-                </span>
+              <div className="w-full space-y-2">
+                <div className="grid grid-cols-6 sm:grid-cols-4 items-center space-x-2 text-sm">
+                  <div
+                    className={`h-2 w-2 rounded-full ${isLoading ? "bg-yellow-500/50 animate-pulse" : "bg-muted"
+                      }`}
+                  />
+                  <span className="text-muted-foreground text-center col-span-4 sm:col-span-2">
+                    {partialQuestions
+                      ? `Generating question ${partialQuestions.length + 1} of 4`
+                      : "Analyzing PDF content"}
+                  </span>
+                </div>
               </div>
-            </div>
-          </CardFooter>
-        )}
-      </Card>
-      <motion.div
-        className="flex flex-row gap-4 items-center justify-between fixed bottom-6 text-xs "
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-      >
-      </motion.div>
-    </div>
+            </CardFooter>
+          )}
+        </Card>
+        <motion.div
+          className="flex flex-row gap-4 items-center justify-between fixed bottom-6 left-0 right-0 px-6 py-3 bg-gray-100 dark:bg-zinc-900 shadow-md rounded-t-md text-sm"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+        >
+          <div className="flex items-center gap-2">
+            <img src="/favicon.ico" alt="App Icon" className="w-6 h-6" />
+            <span className="text-gray-800 dark:text-gray-300 font-semibold">Made by Youssef Khaled</span>
+          </div>
+          <div className="text-gray-500 dark:text-gray-400">
+            &copy; {new Date().getFullYear()}
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 }
